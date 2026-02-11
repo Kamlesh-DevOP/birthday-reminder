@@ -4,7 +4,7 @@ import CalendarGrid from './CalendarGrid';
 import SearchBar from './SearchBar';
 import birthdaysData from '../data/birthdays.json';
 
-const Calendar = () => {
+const Calendar = ({ onEasterEgg }) => {
     const today = new Date();
     const [currentMonth, setCurrentMonth] = useState(today.getMonth());
     const [currentYear, setCurrentYear] = useState(today.getFullYear());
@@ -26,6 +26,13 @@ const Calendar = () => {
         } else {
             setCurrentMonth(currentMonth - 1);
         }
+    };
+
+    const handleJumpToToday = () => {
+        const now = new Date();
+        setCurrentMonth(now.getMonth());
+        setCurrentYear(now.getFullYear());
+        setHighlightedPerson(null);
     };
 
     const handleSearchSelect = (person) => {
@@ -50,14 +57,15 @@ const Calendar = () => {
 
     return (
         <div className="max-w-4xl mx-auto p-4">
-            <SearchBar onSelect={handleSearchSelect} />
+            <SearchBar onSelect={handleSearchSelect} onEasterEgg={onEasterEgg} />
 
-            <div className="bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-100">
+            <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-800 chess:border-stone-800 transition-colors duration-300">
                 <CalendarHeader
                     currentMonth={currentMonth}
                     currentYear={currentYear}
                     onPrev={() => onMonthChange(handlePrevMonth)}
                     onNext={() => onMonthChange(handleNextMonth)}
+                    onJumpToToday={handleJumpToToday}
                 />
 
                 <CalendarGrid

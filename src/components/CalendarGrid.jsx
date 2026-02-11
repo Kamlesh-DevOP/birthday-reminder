@@ -17,26 +17,27 @@ const CalendarGrid = ({ currentMonth, currentYear, birthdaysData, highlightedPer
     const endBlanks = Array.from({ length: Math.max(0, remainingSlots) });
 
     return (
-        <div className="bg-white rounded-b-lg shadow-lg overflow-hidden">
+        <div className="bg-white dark:bg-slate-900 rounded-b-lg shadow-lg overflow-hidden transition-colors duration-300">
             {/* Weekdays Header */}
-            <div className="grid grid-cols-7 bg-gray-100 border-b border-gray-200">
+            <div className="grid grid-cols-7 bg-slate-100 dark:bg-slate-800 chess:bg-[#dabb9c] border-b border-slate-200 dark:border-slate-700 chess:border-[#b58863]">
                 {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                    <div key={day} className="py-3 text-center font-bold text-gray-600 uppercase text-xs tracking-wider">
+                    <div key={day} className="py-3 text-center font-bold text-slate-600 dark:text-slate-300 chess:text-[#4a332a] uppercase text-xs tracking-wider">
                         {day}
                     </div>
                 ))}
             </div>
 
             {/* Days Grid */}
-            <div className="grid grid-cols-7">
+            <div className="grid grid-cols-7 border-l border-t border-slate-200 dark:border-slate-800 chess:border-[#b58863]">
                 {/* Blank days before start of month */}
                 {blanks.map((_, i) => (
-                    <div key={`blank-${i}`} className="min-h-[100px] border border-gray-100 bg-gray-50 opacity-50"></div>
+                    <div key={`blank-${i}`} className="min-h-[100px] border-r border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/50 chess:bg-[#f0d9b5] chess:border-transparent opacity-50"></div>
                 ))}
 
                 {/* Actual days */}
-                {days.map(day => {
+                {days.map((day, i) => {
                     const dateStr = formatDate(currentMonth, day); // MM-DD
+                    const gridIndex = blanks.length + i; // Continuous index including blanks
 
                     // Filter birthdays for this day
                     let daysBirthdays = birthdaysData.filter(b => b.date === dateStr);
@@ -63,13 +64,14 @@ const CalendarGrid = ({ currentMonth, currentYear, birthdaysData, highlightedPer
                             birthdays={daysBirthdays}
                             isToday={isToday(day, currentMonth, currentYear)}
                             isHighlighted={isHighlighted}
+                            index={gridIndex}
                         />
                     );
                 })}
 
                 {/* Blank days after end of month */}
                 {endBlanks.map((_, i) => (
-                    <div key={`end-blank-${i}`} className="min-h-[100px] border border-gray-100 bg-gray-50 opacity-50"></div>
+                    <div key={`end-blank-${i}`} className="min-h-[100px] border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/50 chess:bg-[#b58863] chess:border-transparent opacity-50"></div>
                 ))}
             </div>
         </div>

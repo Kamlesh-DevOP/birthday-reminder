@@ -132,3 +132,5 @@ dist-ssr
 # Privacy
 src/data/birthdays.json
 legacy_backup/
+chess background.jpg
+chess-bg.jpg
