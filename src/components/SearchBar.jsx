@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import birthdaysData from '../data/birthdays.json';
 
+import { toSentenceCase } from '../utils/stringUtils';
+
 const SearchBar = ({ onSelect, onEasterEgg }) => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
@@ -43,7 +45,7 @@ const SearchBar = ({ onSelect, onEasterEgg }) => {
     }, [wrapperRef]);
 
     const handleSelect = (person) => {
-        setQuery(person.name);
+        setQuery(toSentenceCase(person.name));
         onSelect(person);
         setIsOpen(false);
     };
@@ -77,7 +79,7 @@ const SearchBar = ({ onSelect, onEasterEgg }) => {
                             className="px-4 py-2 hover:bg-blue-50 dark:hover:bg-slate-700 cursor-pointer border-b dark:border-slate-700 last:border-b-0"
                             onClick={() => handleSelect(person)}
                         >
-                            <div className="font-medium text-slate-800 dark:text-slate-200">{person.name}</div>
+                            <div className="font-medium text-slate-800 dark:text-slate-200">{toSentenceCase(person.name)}</div>
                             <div className="text-xs text-slate-500 dark:text-slate-400">Birthday: {person.date}</div>
                         </li>
                     ))}

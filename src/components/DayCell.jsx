@@ -1,5 +1,6 @@
 import React from 'react';
 import Tooltip from './Tooltip';
+import { toSentenceCase } from '../utils/stringUtils';
 
 const DayCell = ({ day, month, year, birthdays, isToday, isHighlighted, index }) => {
     const isDarkSquare = index % 2 !== 0; // Checkerboard logic
@@ -20,14 +21,14 @@ const DayCell = ({ day, month, year, birthdays, isToday, isHighlighted, index })
 
             <div className="flex flex-col gap-1">
                 {birthdays.map((person, idx) => (
-                    <Tooltip key={idx} content={`${person.name} (${person.date})`}>
+                    <Tooltip key={idx} content={`${toSentenceCase(person.name)} (${person.date})`}>
                         <div
                             className={`
                                 block text-xs text-slate-800 dark:text-slate-200 truncate px-1 rounded cursor-help
                                 ${isHighlighted && person.isTarget ? 'bg-blue-200 dark:bg-blue-800 chess:bg-brown-200 chess:text-brown-900 font-bold' : ''}
                             `}
                         >
-                            {person.name}
+                            {toSentenceCase(person.name)}
                         </div>
                     </Tooltip>
                 ))}
